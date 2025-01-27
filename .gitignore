@@ -1,0 +1,28 @@
+# Ignore node_modules folder
+node_modules/
+
+# Ignore build/dist folders
+dist/
+
+# Environment variables and sensitive files
+.env
+*.pem
+
+# Logs
+*.log
+
+# Temporary files and editor-specific files
+*.tmp
+*.swp
+*.swo
+.DS_Store
+.vscode/
+.idea/
+
+# Ignore TypeScript compiled files
+*.js
+*.js.map
+*.d.ts
+
+# Nodemon auto-generated artifacts
+.pids
