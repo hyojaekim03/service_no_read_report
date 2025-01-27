@@ -19,12 +19,3 @@ export const getReport = async (offset: number, limit: number) => {
   return rows;
 };
 
-//write query here separately
-
-// export const createUser = async (name: string, email: string) => {
-//   const [result] = await connection.query(
-//     'INSERT INTO users (name, email) VALUES (?, ?)',
-//     [name, email]
-//   );
-//   return result;
-// };
