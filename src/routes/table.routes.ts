@@ -29,23 +29,3 @@ router.get("/adm", async (req, res) => {
 
 export default router;
 
-// import express from 'express';
-// import { fetchAdmReport } from '../services/table.service';
-
-// const router = express.Router();
-
-// router.get('/adm', async (req, res) => {
-//     const page = parseInt(req.query.page as string, 10) || 1;
-//     const limit = parseInt(req.query.page as string, 10) || 30;
-
-//     const offset = limit*(page-1);
-
-//   try {
-//     const users = await fetchAdmReport();
-//     res.json(users);
-//   } catch (err) {
-//     res.status(500).send(err);
-//   }
-// });
-
-// export default router;  
