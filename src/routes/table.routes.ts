@@ -1,5 +1,5 @@
 import express from "express";
-import { fetchReport, fetchFilteredReport, fetchDataCount } from "../services/table.service";
+import { fetchReport, fetchFilteredReport, fetchDataCount, fetchNonComm } from "../services/table.service";
 import { FilterParams } from "../types/filter";
 import { parseRangeFilter } from "../utils/parseFilters";
 // import db from "./db"; 
@@ -80,6 +80,16 @@ router.get("/filteredReport", async (req, res) => {
       data: rows, // Data for the current page
       totalCount, // Total number of items in the table
     });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+router.get("/nonCommReport", async (req, res) => {
+  try{
+    const rows = await fetchNonComm();
+    res.json(rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

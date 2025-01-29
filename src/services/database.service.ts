@@ -290,3 +290,10 @@ LIMIT ? OFFSET ?;
   console.log("rows: ", rows)
   return rows;
 };
+
+export const getNonComm = async () => {
+  const query = `SELECT * FROM ${TABLE2};`
+  const [rows] = await connection.query(query);
+
+  return rows;
+}
