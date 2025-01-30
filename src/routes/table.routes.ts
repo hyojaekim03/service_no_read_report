@@ -1,5 +1,5 @@
 import express from "express";
-import { fetchReport, fetchFilteredReport, fetchDataCount, fetchNonComm } from "../services/table.service";
+import { fetchReport, fetchFilteredReport, fetchDataCount, fetchNonCommCount } from "../services/table.service";
 import { FilterParams } from "../types/filter";
 import { parseRangeFilter } from "../utils/parseFilters";
 // import db from "./db"; 
@@ -86,9 +86,10 @@ router.get("/filteredReport", async (req, res) => {
   }
 });
 
-router.get("/nonCommReport", async (req, res) => {
+router.get("/nonCommCount", async (req, res) => {
+  const groupBy = req.query.groupBy;
   try{
-    const rows = await fetchNonComm();
+    const rows = await fetchNonCommCount(groupBy as string);
     res.json(rows);
   } catch (error) {
     console.error(error);

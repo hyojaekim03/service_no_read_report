@@ -291,8 +291,24 @@ LIMIT ? OFFSET ?;
   return rows;
 };
 
-export const getNonComm = async () => {
-  const query = `SELECT * FROM ${TABLE2};`
+export const getNonCommCount = async (groupBy: string) => {
+  let query = '';
+  if (groupBy === undefined) {
+    query = `SELECT 
+                SUM(days_4_to_10 + days_10_to_30 + days_30_to_60 + days_60_to_90 + days_90_plus) AS total_non,
+                SUM(current + days_4_to_10 + days_10_to_30 + days_30_to_60 + days_60_to_90 + days_90_plus) AS total_count
+             FROM 
+                 non_comm`
+  } else {
+    query = `SELECT
+               ${groupBy},
+               SUM(days_4_to_10 + days_10_to_30 + days_30_to_60 + days_60_to_90 + days_90_plus) AS total_non,
+               SUM(current + days_4_to_10 + days_10_to_30 + days_30_to_60 + days_60_to_90 + days_90_plus) AS total_count
+             FROM
+               non_comm
+             GROUP BY
+               ${groupBy};`
+  }
   const [rows] = await connection.query(query);
 
   return rows;
