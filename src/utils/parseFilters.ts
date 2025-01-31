@@ -16,4 +16,25 @@ export const parseRangeFilter = (range: string | undefined) => {
   
     return { min: null, max: null };
   };
+
+  export const parseNonCommFilter = (range: string | undefined) => {
+    const percentSign = "%"
+    const numRange = range?.replace(percentSign, " ")
+
+    if (!range || range === "All") return { min: 0, max: 100 };
+  
+    if (numRange!.includes("-")) {
+      const [min, max] = numRange!.split("-").map(Number);
+      return { min, max };
+    }
+  
+    if (numRange!.startsWith("<")) {
+      return { min: 0, max: Number(numRange!.replace("<", "")) };
+    }
+  
+    return { min: 100, max: 100};
+  
+    // return { min: null, max: null };
+  };
+  
   
