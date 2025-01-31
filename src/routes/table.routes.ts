@@ -56,9 +56,9 @@ router.get("/filteredReport", async (req, res) => {
     days60to90: parseRangeFilter(typeof req.query.days60to90 === "string" ? req.query.days60to90 : undefined),
     days90Plus: parseRangeFilter(typeof req.query.days90Plus === "string" ? req.query.days90Plus : undefined),
   };
-  console.log("current: ", filters.current)
+  // console.log("current: ", filters.current)
 
-  console.log('AMR: ', filters.amr)
+  // console.log('AMR: ', filters.amr)
 
 
   try {
@@ -71,7 +71,7 @@ router.get("/filteredReport", async (req, res) => {
 
     const totalCount = resultArray.length
 
-    console.log('totalCount: ', totalCount)
+    // console.log('totalCount: ', totalCount)
 
     // Query total count
     // const totalCount = await fetchDataCount();

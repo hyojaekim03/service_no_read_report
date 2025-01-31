@@ -282,19 +282,24 @@ LIMIT ? OFFSET ?;
   ];
   
 
-  console.log("Executing SQL Query:", baseQuery);
-  console.log("With Parameters:", queryParams);
+  // console.log("Executing SQL Query:", baseQuery);
+  // console.log("With Parameters:", queryParams);
 
   // Execute the query
   const [rows] = await connection.query(baseQuery, queryParams);
-  console.log("rows: ", rows)
+  // console.log("rows: ", rows)
   return rows;
 };
 
 export const getNonCommCount = async (groupBy: string) => {
   let query = '';
   if (groupBy === undefined) {
-    query = `SELECT 
+    query = `SELECT
+                SUM(days_4_to_10) AS sum_days_4_to_10,
+                SUM(days_10_to_30) AS sum_days_10_to_30,
+                SUM(days_30_to_60) AS sum_days_30_to_60,
+                SUM(days_60_to_90) AS sum_days_60_to_90,
+                SUM(days_90_plus) AS sum_days_90_plus,
                 SUM(days_4_to_10 + days_10_to_30 + days_30_to_60 + days_60_to_90 + days_90_plus) AS total_non,
                 SUM(current + days_4_to_10 + days_10_to_30 + days_30_to_60 + days_60_to_90 + days_90_plus) AS total_count
              FROM 
@@ -302,6 +307,11 @@ export const getNonCommCount = async (groupBy: string) => {
   } else {
     query = `SELECT
                ${groupBy},
+               SUM(days_4_to_10) AS sum_days_4_to_10,
+               SUM(days_10_to_30) AS sum_days_10_to_30,
+               SUM(days_30_to_60) AS sum_days_30_to_60,
+               SUM(days_60_to_90) AS sum_days_60_to_90,
+               SUM(days_90_plus) AS sum_days_90_plus,
                SUM(days_4_to_10 + days_10_to_30 + days_30_to_60 + days_60_to_90 + days_90_plus) AS total_non,
                SUM(current + days_4_to_10 + days_10_to_30 + days_30_to_60 + days_60_to_90 + days_90_plus) AS total_count
              FROM
