@@ -1,10 +1,11 @@
 import express from "express";
 import { fetchReport, fetchFilteredReport, fetchDataCount } from "../services/table.service";
 import { FilterParams } from "../types/filter";
-import { parseRangeFilter } from "../utils/parseFilters";
+import { parseNonCommFilter, parseRangeFilter } from "../utils/parseFilters";
 // import db from "./db"; 
 
 const router = express.Router();
+
 /*NOT BEING USED RIGHT NOW*/
 router.get("/report", async (req, res) => {
   const page = parseInt(req.query.page as string, 10) || 1; 
@@ -49,32 +50,25 @@ router.get("/filteredReport", async (req, res) => {
     buildingMeterCount: parseRangeFilter(
       typeof req.query.buildingMeterCount === "string" ? req.query.buildingMeterCount : undefined
     ),
-    current: parseRangeFilter(typeof req.query.current === "string" ? req.query.current : undefined),
+    currentCount: parseRangeFilter(typeof req.query.currentCount === "string" ? req.query.currentCount : undefined),
+    nonCommCount: parseNonCommFilter(typeof req.query.nonCommCount === "string" ? req.query.nonCommCount: undefined),
     days4to10: parseRangeFilter(typeof req.query.days4to10 === "string" ? req.query.days4to10 : undefined),
     days10to30: parseRangeFilter(typeof req.query.days10to30 === "string" ? req.query.days10to30 : undefined),
     days30to60: parseRangeFilter(typeof req.query.days30to60 === "string" ? req.query.days30to60 : undefined),
     days60to90: parseRangeFilter(typeof req.query.days60to90 === "string" ? req.query.days60to90 : undefined),
     days90Plus: parseRangeFilter(typeof req.query.days90Plus === "string" ? req.query.days90Plus : undefined),
   };
-  console.log("current: ", filters.current)
-
-  console.log('AMR: ', filters.amr)
-
 
   try {
     // Query paginated data
+    console.log("filter: ", filters.nonCommCount);
     const rows = await fetchFilteredReport(offset, limit, filters);
 
-    // const len = await fetchDataCount(filters)
+    const lenArr = await fetchDataCount(filters);
 
-    const resultArray = Array.isArray(rows) ? rows : [rows];
+    console.log(`report length: ${lenArr}`)
 
-    const totalCount = resultArray.length
-
-    console.log('totalCount: ', totalCount)
-
-    // Query total count
-    // const totalCount = await fetchDataCount();
+    const totalCount = lenArr
 
     res.json({
       data: rows, // Data for the current page
